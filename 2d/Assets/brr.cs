@@ -5,13 +5,22 @@ using UnityEngine;
 public class brr : MonoBehaviour
 {
     public CharacterController2D controlller;
-    public float runSpeed = 40f;
+    public Animator animator;
+    public float runSpeed = 0f;
     bool jump = false;
     bool crouch = false;
     public Transform size;
+    void Start(){
+        runSpeed = 0f;
+    }
     void Update(){
+        if (Input.GetButtonDown("Start")){
+            runSpeed = 100f;
+        }
+        animator. SetFloat("Speed", runSpeed);
         if (Input.GetButtonDown("Jump")){
             jump = true;
+            animator.SetBool("InAir", true);
         }
         if (Input. GetButtonDown("Crouch")){
             crouch = true;
@@ -19,7 +28,9 @@ public class brr : MonoBehaviour
             crouch = false;
         }
     }
-    
+    public void OnGround(){
+        animator.SetBool("InAir", false);
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
