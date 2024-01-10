@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class brr : MonoBehaviour
 {
@@ -22,10 +23,9 @@ public class brr : MonoBehaviour
             jump = true;
             animator.SetBool("InAir", true);
         }
-        if (Input. GetButtonDown("Crouch")){
-            crouch = true;
-        } else if (Input. GetButtonUp("Crouch")){
-            crouch = false;
+        
+        if (Input.GetButtonDown("Stop")){
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
     public void OnGround(){
