@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class brr : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class brr : MonoBehaviour
     bool jump = false;
     bool crouch = false;
     public Transform size;
+    public Canvas gameOverText;
+    public Canvas winText;
     void Start(){
         runSpeed = 0f;
     }
@@ -26,6 +29,7 @@ public class brr : MonoBehaviour
         
         if (Input.GetButtonDown("Stop")){
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            Time.timeScale = 1;
         }
     }
     public void OnGround(){
@@ -37,5 +41,15 @@ public class brr : MonoBehaviour
         
         controlller.Move(runSpeed * Time.fixedDeltaTime, crouch, jump);
         jump = false;
+    }
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.tag == "Water"){
+            gameOverText.gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
+        if(collision.tag == "Lasagna"){
+            winText.gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
     }
 }
