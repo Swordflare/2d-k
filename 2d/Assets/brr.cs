@@ -12,25 +12,40 @@ public class brr : MonoBehaviour
     bool jump = false;
     bool crouch = false;
     public Transform size;
-    public Canvas gameOverText;
     public Canvas winText;
+    public Canvas pauseText;
     void Start(){
         runSpeed = 0f;
     }
     void Update(){
         if (Input.GetButtonDown("Start")){
             runSpeed = 100f;
+            
         }
         animator. SetFloat("Speed", runSpeed);
-        if (Input.GetButtonDown("Jump")){
+        if (Input.GetButton("Jump")){
             jump = true;
             animator.SetBool("InAir", true);
         }
         
         if (Input.GetButtonDown("Stop")){
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-            Time.timeScale = 1;
+            pauseText.gameObject.SetActive(true);
+            Time.timeScale = 0;
         }
+    }
+    public void Continue(){
+        pauseText.gameObject.SetActive(false);
+        Time.timeScale = 1;
+    }
+    public void MainMenu(){
+        pauseText.gameObject.SetActive(false);
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1;
+    }
+    public void Retry(){
+        pauseText.gameObject.SetActive(false);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
     }
     public void OnGround(){
         animator.SetBool("InAir", false);
@@ -44,8 +59,8 @@ public class brr : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.tag == "Water"){
-            gameOverText.gameObject.SetActive(true);
-            Time.timeScale = 0;
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+            
         }
         if(collision.tag == "Lasagna"){
             winText.gameObject.SetActive(true);
